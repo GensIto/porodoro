@@ -33,3 +33,11 @@ nest g module prisma --no-spec
 ```
 
 app に import する
+
+# DB 更新
+
+schema.prisma を更新したら
+
+```
+npx prisma migrate dev --name init
+```
