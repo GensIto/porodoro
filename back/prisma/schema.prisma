@@ -9,3 +9,28 @@ datasource db {
   provider = "sqlite"
   url      = "file:./database.sqlite"
 }
+model User {
+  id              Int             @id @default(autoincrement())
+  email           String          @unique
+  password        String
+  level           Int             @default(1)
+  pomodoros       Pomodoro[]
+  completedPomodoroCount Int     @default(0) // ユーザーが完了したポモドーロの数
+}
+
+model LevelRequirement {
+  id               Int             @id @default(autoincrement())
+  level            Int
+  requiredPomodoros Int             // レベルアップに必要なポモドーロ数
+  requiredTime     Int?            // レベルアップに必要な時間 (分) を保持する場合
+}
+
+model Pomodoro {
+  id              Int             @id @default(autoincrement())
+  startTime       DateTime
+  endTime         DateTime
+  task            String?
+  completed       Boolean         @default(false) // ポモドーロが完了したかどうか
+  user            User            @relation(fields: [userId], references: [id])
+  userId          Int
+}
